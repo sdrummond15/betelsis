@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+            
+                <field  name="client" 
+                        type="clienteorcserv" 
+                        label="COM_ADMINISTRATIONS_FIELD_CLIENT_LABEL"
+                        required="true" 
+                        class="clientereportnote"
+                />
+                <field  name="func"
+                        type="funcorcserv"
+                        label="COM_ADMINISTRATIONS_FIELD_FUNC_LABEL"
+                        required="true"
+                        class="funcreportnote"
+                />
+                
+		<field name="dataini" 
+                       type="calendar"
+                       label="JGLOBAL_FIELD_CREATEDINI_LABEL" 
+                       class="datains" 
+                       size="6" 
+                       format="%Y-%m-%d"
+                       filter="user_utc"
+                />
+                <field name="datafim" 
+                       type="calendar"
+                       label="JGLOBAL_FIELD_CREATEDFIM_LABEL" 
+                       class="datains" 
+                       size="6" 
+                       format="%Y-%m-%d"
+                       filter="user_utc"
+                />
+		
+                
+	</fieldset>
+</form>

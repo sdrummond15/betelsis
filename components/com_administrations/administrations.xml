@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>com_administrations</name>
+	<author>Wanderson ALves</author>
+	<creationDate>26/03/2014</creationDate>
+	<copyright>(C)2014 SDrummond. All rights reserved.	</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>wanderson@sdrummond.com.br</authorEmail>
+	<authorUrl>www.sdrummond.com.br</authorUrl>
+	<version>2.5.0</version>
+	<description>COM_ADMINISTRATIONS_XML_DESCRIPTION</description>
+        <install>
+            <sql>
+                <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+            </sql>
+        </install>
+        <uninstall>
+            <sql>
+                <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+            </sql>
+        </uninstall>
+        <files folder="site">
+            <folder>controllers        </folder>
+            <folder>helpers            </folder>
+            <folder>languages          </folder>
+            <folder>models             </folder>
+            <folder>views              </folder>
+            <folder>administrations.php</folder>
+            <folder>controller.php     </folder>
+            <folder>index.html         </folder>
+            <folder>router.php         </folder>
+        </files>
+        <languages folder="site">
+            <language tag="pt-BR">language/pt-BR.com_administrations.ini</language>
+        </languages>
+	<administration>
+            <menu img="../media/com_administrations/images/menu/administrativo.png">com_administrations</menu>
+            <submenu>
+                <menu link="option=com_administrations&amp;view=clients"      view="clients"      img="../media/com_administrations/images/menu/cliente.png" alt="Administrations/Clients">com_administrations_clients</menu>
+                <menu link="option=com_administrations&amp;view=districts"    view="districts"    img="../media/com_administrations/images/menu/bairro.png" alt="Administrations/Districts">com_administrations_districts</menu>
+                <menu link="option=com_administrations&amp;view=cities"       view="cities"       img="../media/com_administrations/images/menu/cidade.png" alt="Administrations/Cities">com_administrations_cities</menu>
+                <menu link="option=com_administrations&amp;view=employees"    view="employees"    img="../media/com_administrations/images/menu/funcionarios.png" alt="Administrations/Employees">com_administrations_employees</menu>
+                <menu link="option=com_administrations&amp;view=vehicles"     view="vehicles"     img="../media/com_administrations/images/menu/veiculos.png" alt="Administrations/Vehicles">com_administrations_vehicles</menu>
+                <menu link="option=com_administrations&amp;view=services"     view="services"     img="../media/com_administrations/images/menu/servicos.png" alt="Administrations/Services">com_administrations_services</menu>
+                <menu link="option=com_administrations&amp;view=orcservs"      view="orcservs"      img="../media/com_administrations/images/menu/orcamento.png" alt="Administrations/Orcservs">com_administrations_orcservs</menu>
+            </submenu>
+		<files folder="admin">
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+                        <folder>languages</folder>
+                        <folder>sql</folder>
+                        <folder>tables</folder>
+			<folder>views</folder>
+                        <filename>administration.php</filename>
+                        <filename>access.xml</filename>
+                        <filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+		</files>
+		<languages folder="admin">
+			<language tag="pt-BR">language/pt-BR.administrations.ini</language>
+                        <language tag="pt-BR">language/pt-BR.administrations.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

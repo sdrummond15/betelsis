@@ -1,0 +1,21 @@
+.icon-48-orcserv{
+    background: url(../icons/orcamento.png) no-repeat left;
+}
+.icon-48-client{
+    background: url(../icons/clientes.png) no-repeat left;
+}
+.icon-48-district{
+    background: url(../icons/bairro.png) no-repeat left;
+}
+.icon-48-city{
+    background: url(../icons/cidade.png) no-repeat left;
+}
+.icon-48-services{
+    background: url(../icons/servicos.png) no-repeat left;
+}
+.icon-48-employee{
+    background: url(../icons/funcionarios.png) no-repeat left;
+}
+.icon-48-vehicles{
+    background: url(../icons/veiculos.png) no-repeat left;
+}
