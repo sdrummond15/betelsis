@@ -58,7 +58,10 @@ jQuery(document).ready(function(){
                     jQuery('#jform_email').val(retorno[0].email);
                     jQuery('#jform_email2').val(retorno[0].email2);
                     jQuery('#jform_published').val(retorno[0].published);
-                }
+                },
+		error: function (error) {
+			console.log(error);
+		}
         });
         }else{
             alert ('Selecione um Cliente!');

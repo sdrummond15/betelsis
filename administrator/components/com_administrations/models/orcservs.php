@@ -100,6 +100,7 @@ class AdministrationsModelOrcServs extends JModelList
 	 *
 	 * @return	JDatabaseQuery
 	 */
+
 	protected function getListQuery()
 	{
 		// Create a new query object.
@@ -157,6 +158,6 @@ class AdministrationsModelOrcServs extends JModelList
                 $orderDirn = $this->state->get('list.direction','asc');
 
                 $query->order($db->escape($orderCol.' '.$orderDirn));
-		return $query;
+                return $query;
 	}
 }

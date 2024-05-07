@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
@@ -19,7 +19,17 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = (isset($this->state->params)) ? $this->state->params : new JObject();
-
+function funcSelect($id)
+	{
+		$db = JFactory::getDBO();
+		$query = "SELECT f.nome as func 
+					FROM #__funcxorc AS fo 
+					JOIN #__func AS f 
+					ON fo.id_func = f.id WHERE fo.id_orc_serv = ".(int) $id;
+		$db->setQuery($query);
+		$item = $db->loadObjectList();
+		return $item; 
+	}
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_administrations&view=orcservs'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -30,10 +40,10 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-                       
+
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true); ?>
 			</select>
 		</div>
 	</fieldset>
@@ -42,34 +52,37 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 	<table class="adminlist">
 		<thead>
 			<tr>
-                                <th width="1%">
+				<th width="1%">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
-                                <th width="1%" class="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
-                                <th width="20%">
+				<th width="20%">
 					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CLIENT', 'c.nome', $listDirn, $listOrder); ?>
 				</th>
-                                <th width="20%">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CONTACT', 'a.contato', $listDirn, $listOrder); ?>
 				</th>
-                                <th width="10%">
+				<th width="10%">
 					<?php echo JText::_('COM_ADMINISTRATIONS_HEADING_FONE'); ?>
 				</th>
-                                <th width="10%">
+				<th width="10%">
+					<?php echo "Funcionários"; ?>
+				</th>
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_DISTRICT', 'ba.nome', $listDirn, $listOrder); ?>
 				</th>
 				<th width="2%">
 					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CREATED','a.created',$listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 				</th>
-                                <th width="13%">
-					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CREATED_BY','a.created_by',$listDirn, $listOrder); ?>
+				<th width="13%">
+					<?php echo JHtml::_('grid.sort', 'COM_ADMINISTRATIONS_HEADING_CREATED_BY', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
-				
+
 			</tr>
 		</thead>
 		<tfoot>
@@ -80,45 +93,52 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
-			
-			$canCreate	= $user->authorise('core.create',	'com_administrations');
-			$canEdit	= $user->authorise('core.edit',		'com_administrations');
-			$canCheckin	= $user->authorise('core.manage',	'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
-			$canChange	= $user->authorise('core.edit.state',	'com_administrations') && $canCheckin;
+			<?php foreach ($this->items as $i => $item) :
+
+				$canCreate	= $user->authorise('core.create',	'com_administrations');
+				$canEdit	= $user->authorise('core.edit',		'com_administrations');
+				$canCheckin	= $user->authorise('core.manage',	'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+				$canChange	= $user->authorise('core.edit.state',	'com_administrations') && $canCheckin;
 			?>
-			<tr class="row<?php echo $i % 2; ?>">
-				<td class="center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</td>
-                                <td class="center">
-					<?php echo $item->id; ?>
-				</td>
-                                <td class="center">
-                                    <a href="<?php echo JRoute::_('index.php?option=com_administrations&task=orcserv.edit&id='.(int) $item->id); ?>">
-					<?php echo $item->cliente; ?></a>
-				</td>
-                                 <td class="center">
-					<?php echo $item->contato;?>
-				</td>
-                                <td class="center">
-					<?php echo $item->fone;?>
-				</td>
-                                <td class="center">
-					<?php echo $item->bairro;?>
-				</td>
-                                <td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'orcservs.', $canChange);?>
-				</td>
-                                <td class="center">
-					<?php echo $item->created; ?>
-				</td>
-				<td class="center">
-					<?php echo $item->author_name; ?>
-				</td>
-				
-				
-			</tr>
+				<tr class="row<?php echo $i % 2; ?>">
+					<td class="center">
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					</td>
+					<td class="center">
+						<?php echo $item->id; ?>
+					</td>
+					<td class="center">
+						<a href="<?php echo JRoute::_('index.php?option=com_administrations&task=orcserv.edit&id=' . (int) $item->id); ?>">
+							<?php echo $item->cliente; ?></a>
+					</td>
+					<td class="center">
+						<?php echo $item->contato; ?>
+					</td>
+					<td class="center">
+						<?php echo $item->fone; ?>
+					</td>
+					<td class="center">
+						<?php 
+							  $funcs = funcselect($item->id); 
+							  foreach ($funcs as $func) {
+								echo $func->func . '<br />';
+							}?>
+					</td>
+					<td class="center">
+						<?php echo $item->bairro; ?>
+					</td>
+					<td class="center">
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'orcservs.', $canChange); ?>
+					</td>
+					<td class="center">
+						<?php echo $item->created; ?>
+					</td>
+					<td class="center">
+						<?php echo $item->author_name; ?>
+					</td>
+
+
+				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
