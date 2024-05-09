@@ -68,3 +68,5 @@ Copyright:
     * Credits: http://docs.joomla.org/Joomla!_Credits_and_Thanks
     * Distributed under the GNU General Public License version 2 or later
     * See Licenses details at http://docs.joomla.org/Joomla_Licenses
+
+TESTE
