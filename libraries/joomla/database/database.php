@@ -1364,25 +1364,21 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since 11.3
 	 */
-	protected function quoteNameStr($strArr)
-	{
+	protected function quoteNameStr($strArr) {
 		$parts = array();
 		$q = $this->nameQuote;
 
-		foreach ($strArr as $part)
-		{
-			if (is_null($part))
-			{
+		foreach ($strArr as $part) {
+			if (is_null($part)) {
 				continue;
 			}
 
-			if (strlen($q) == 1)
-			{
+			// Verifica se $q é uma string e tem um comprimento maior que 1
+			if (is_string($q) && strlen($q) > 1) {
+				$parts[] = $q[0] . $part . $q[1];
+			} else {
+				// Use $q diretamente, assumindo que é um par de caracteres de citação
 				$parts[] = $q . $part . $q;
-			}
-			else
-			{
-				$parts[] = $q{0} . $part . $q{1};
 			}
 		}
 
@@ -1400,8 +1396,7 @@ abstract class JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
-	{
+	public function replacePrefix($sql, $prefix = '#__') {
 		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
@@ -1411,28 +1406,22 @@ abstract class JDatabase implements JDatabaseInterface
 		$sql = trim($sql);
 		$n = strlen($sql);
 
-		while ($startPos < $n)
-		{
+		while ($startPos < $n) {
 			$ip = strpos($sql, $prefix, $startPos);
-			if ($ip === false)
-			{
+			if ($ip === false) {
 				break;
 			}
 
 			$j = strpos($sql, "'", $startPos);
 			$k = strpos($sql, '"', $startPos);
-			if (($k !== false) && (($k < $j) || ($j === false)))
-			{
+			if (($k !== false) && (($k < $j) || ($j === false))) {
 				$quoteChar = '"';
 				$j = $k;
-			}
-			else
-			{
+			} else {
 				$quoteChar = "'";
 			}
 
-			if ($j === false)
-			{
+			if ($j === false) {
 				$j = $n;
 			}
 
@@ -1441,43 +1430,36 @@ abstract class JDatabase implements JDatabaseInterface
 
 			$j = $startPos + 1;
 
-			if ($j >= $n)
-			{
+			if ($j >= $n) {
 				break;
 			}
 
 			// quote comes first, find end of quote
-			while (true)
-			{
+			while (true) {
 				$k = strpos($sql, $quoteChar, $j);
 				$escaped = false;
-				if ($k === false)
-				{
+				if ($k === false) {
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
-				{
+				while ($l >= 0 && $sql[$l] == '\\') {
 					$l--;
 					$escaped = !$escaped;
 				}
-				if ($escaped)
-				{
+				if ($escaped) {
 					$j = $k + 1;
 					continue;
 				}
 				break;
 			}
-			if ($k === false)
-			{
+			if ($k === false) {
 				// error in the query - no end quote; ignore it
 				break;
 			}
 			$literal .= substr($sql, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
-		if ($startPos < $n)
-		{
+		if ($startPos < $n) {
 			$literal .= substr($sql, $startPos, $n - $startPos);
 		}
 

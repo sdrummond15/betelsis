@@ -98,20 +98,17 @@ class JRequest
 	 *
 	 * @deprecated   12.1  Use JInput::Get
 	 */
-	public static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
-	{
+	public static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0) {
 		// Ensure hash and type are uppercase
 		$hash = strtoupper($hash);
-		if ($hash === 'METHOD')
-		{
+		if ($hash === 'METHOD') {
 			$hash = strtoupper($_SERVER['REQUEST_METHOD']);
 		}
 		$type = strtoupper($type);
 		$sig = $hash . $type . $mask;
 
 		// Get the input hash
-		switch ($hash)
-		{
+		switch ($hash) {
 			case 'GET':
 				$input = &$_GET;
 				break;
@@ -136,39 +133,22 @@ class JRequest
 				break;
 		}
 
-		if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true))
-		{
+		if (isset($GLOBALS['_JREQUEST'][$name]['SET.' . $hash]) && ($GLOBALS['_JREQUEST'][$name]['SET.' . $hash] === true)) {
 			// Get the variable from the input hash
 			$var = (isset($input[$name]) && $input[$name] !== null) ? $input[$name] : $default;
 			$var = self::_cleanVar($var, $mask, $type);
-		}
-		elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig]))
-		{
-			if (isset($input[$name]) && $input[$name] !== null)
-			{
+		} elseif (!isset($GLOBALS['_JREQUEST'][$name][$sig])) {
+			if (isset($input[$name]) && $input[$name] !== null) {
 				// Get the variable from the input hash and clean it
 				$var = self::_cleanVar($input[$name], $mask, $type);
-
-				// Handle magic quotes compatibility
-				if (get_magic_quotes_gpc() && ($var != $default) && ($hash != 'FILES'))
-				{
-					$var = self::_stripSlashesRecursive($var);
-				}
-
 				$GLOBALS['_JREQUEST'][$name][$sig] = $var;
-			}
-			elseif ($default !== null)
-			{
+			} elseif ($default !== null) {
 				// Clean the default value
 				$var = self::_cleanVar($default, $mask, $type);
-			}
-			else
-			{
+			} else {
 				$var = $default;
 			}
-		}
-		else
-		{
+		} else {
 			$var = $GLOBALS['_JREQUEST'][$name][$sig];
 		}
 

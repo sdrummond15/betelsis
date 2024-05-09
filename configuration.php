@@ -15,12 +15,12 @@ class JConfig {
 	public $host = 'localhost';
 	public $user = 'root';
 	public $password = '';
-	public $db = 'desentup_sistema';
+	public $db = 'db_betelsis';
 	public $dbprefix = 'jjdk5_';
 	public $live_site = '';
 	public $secret = 'a7Xh5gKMsDVDWPql';
 	public $gzip = '0';
-	public $error_reporting = '1';
+	public $error_reporting = 'maximum';
 	public $helpurl = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}';
 	public $ftp_host = '127.0.0.1';
 	public $ftp_port = '21';

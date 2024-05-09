@@ -1,42 +1,49 @@
-.servicostotal{
+.servicostotal {
     width: 100%;
     display: table;
     padding: 20px 0;
 }
+
 #result table,
 .listaserv,
-.listaserv1{
+.listaserv1 {
     width: 100%;
     border-spacing: 0;
     border: 1px solid #888;
 }
+
 .listaserv td,
-.listaserv1 td{
+.listaserv1 td {
     border: 1px solid #888;
     padding: 5px 10px;
     font-size: 12px;
 }
+
 .listaserv th,
-.listaserv1 th{
+.listaserv1 th {
     border: 1px solid #888;
     padding: 5px 10px;
     background-color: #ccc;
     font-size: 14px;
 }
-.totalservicos{
+
+.totalservicos {
     text-align: right;
 }
-#divProdutoList{
-    width: 100%; 
+
+#divProdutoList {
+    width: 100%;
     display: table;
     padding: 20px 0;
 }
-.inserts{
+
+.inserts {
     width: 90%;
     float: left;
 }
+
 .inserts input,
-.inserts select{
+.inserts select {
     margin: 0;
     width: 24%;
     font-size: 14px;
@@ -44,43 +51,42 @@
     min-height: 18px;
     border: 1px solid #888;
 }
-#desc{
-    width: 98.6%; 
+
+#desc {
+    width: 98.6%;
     display: table;
     border: 1px solid #888;
 }
-.insertbutton{
+
+.insertbutton {
     width: 10%;
     float: left;
 }
-.insertbutton input{
-    background: rgba(242,246,248,1);
-    background: -moz-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 41%, rgba(181,198,208,1) 55%, rgba(224,239,249,1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(242,246,248,1)), color-stop(41%, rgba(216,225,231,1)), color-stop(55%, rgba(181,198,208,1)), color-stop(100%, rgba(224,239,249,1)));
-    background: -webkit-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 41%, rgba(181,198,208,1) 55%, rgba(224,239,249,1) 100%);
-    background: -o-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 41%, rgba(181,198,208,1) 55%, rgba(224,239,249,1) 100%);
-    background: -ms-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 41%, rgba(181,198,208,1) 55%, rgba(224,239,249,1) 100%);
-    background: linear-gradient(to bottom, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 41%, rgba(181,198,208,1) 55%, rgba(224,239,249,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9', GradientType=0 );
+
+.insertbutton input {
+    box-shadow: inset 0px 0px 15px 3px #23395e;
+    background-color: #2e466e;
+    border-radius: 3px;
+    border: 2px solid #1f2f47;
+    display: inline-block;
     cursor: pointer;
-    padding: 20px 25px;
-    font-size: 18px;
-    margin: 0 5px;
-    border: 0;
-    border-radius: 10px;
+    color: #ffffff !important;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #263666;
+    margin-top: 5px;
+    float: right;
 }
-.insertbutton input:hover{
-    background: rgba(224,239,249,1);
-    background: -moz-linear-gradient(top, rgba(224,239,249,1) 0%, rgba(181,198,208,1) 45%, rgba(216,225,231,1) 65%, rgba(242,246,248,1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(224,239,249,1)), color-stop(45%, rgba(181,198,208,1)), color-stop(65%, rgba(216,225,231,1)), color-stop(100%, rgba(242,246,248,1)));
-    background: -webkit-linear-gradient(top, rgba(224,239,249,1) 0%, rgba(181,198,208,1) 45%, rgba(216,225,231,1) 65%, rgba(242,246,248,1) 100%);
-    background: -o-linear-gradient(top, rgba(224,239,249,1) 0%, rgba(181,198,208,1) 45%, rgba(216,225,231,1) 65%, rgba(242,246,248,1) 100%);
-    background: -ms-linear-gradient(top, rgba(224,239,249,1) 0%, rgba(181,198,208,1) 45%, rgba(216,225,231,1) 65%, rgba(242,246,248,1) 100%);
-    background: linear-gradient(to bottom, rgba(224,239,249,1) 0%, rgba(181,198,208,1) 45%, rgba(216,225,231,1) 65%, rgba(242,246,248,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e0eff9', endColorstr='#f2f6f8', GradientType=0 );
-    cursor: pointer;
+
+.insertbutton input:hover {
+    background-color: #415989;
+    color: #ffffff !important;
+    text-decoration: none;
 }
-.deletaserv{
+
+.deletaserv {
     background: url('../icons/delete.png') no-repeat;
     cursor: pointer;
     border: 0;
@@ -88,28 +94,62 @@
     width: 20px;
     height: 20px;
 }
-.deletaserv:hover{
+
+.deletaserv:hover {
     background: url('../icons/deletehover.png') no-repeat;
 }
-.tddeletaserv{
+
+.tddeletaserv {
     padding: 1px 0px !important;
     text-align: center;
     width: 50px;
 }
+
 .desc_func,
-.desc_veic{
+.desc_veic {
     font-size: 10px;
     width: 140px;
     padding: 5px 0;
 }
-.litot{
+
+.litot {
     width: 100%;
     display: table;
 }
-.halfli{
+
+.halfli {
     width: 40%;
     float: left;
 }
-.observacao{
+
+.observacao {
     width: auto !important;
+}
+
+.btn-salvar {
+    box-shadow: inset 0px 0px 15px 3px #23395e;
+    background-color: #2e466e;
+    border-radius: 3px;
+    border: 2px solid #1f2f47;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff !important;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 10px 20px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #263666;
+    margin-top: 5px;
+    float: right;
+}
+
+.btn-salvar:hover {
+    background-color: #415989;
+    color: #ffffff !important;
+    text-decoration: none;
+}
+
+.btn-salvar:active {
+    position: relative;
+    top: 1px;
 }

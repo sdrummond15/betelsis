@@ -22,11 +22,11 @@ jimport('joomla.application.component.view');
 
 class AdministrationsViewOrcservs extends JView
 {
-    protected $items;
-    protected $paginaton;
-    protected $state;
-    
-    /*
+        protected $items;
+        protected $paginaton;
+        protected $state;
+
+        /*
      * Method to display the view.
      * 
      * @param string $tpl  A template file to load. [optional]
@@ -35,76 +35,73 @@ class AdministrationsViewOrcservs extends JView
      * 
      * @since 1.6
      */
-   public function display($tpl = null) 
-   {
-       // Initialise variables
-       $this->items       = $this->get('Items');
-       $this->pagination  = $this->get('Pagination');
-       $this->state       = $this->get('State');
-       
-       
-       if(count($errors = $this->get('Erros')))
-       {
-           JError::raiseError(500, implode("\n", $errors));
-       }
-       
-       $doc = JFactory::getDocument();
-       $doc ->addStyleSheet(JURI::root().'administrator/components/com_administrations/assets/css/backend.css');
-       
-       $this->addToolbar();
-		
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+        public function display($tpl = null)
+        {
+                // Initialise variables
+                $this->items       = $this->get('Items');
+                $this->pagination  = $this->get('Pagination');
+                $this->state       = $this->get('State');
 
-		parent::display($tpl);
-   }
-   protected function addToolbar()
-	{
+                $errors = $this->get('Errors');
+                if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                                JFactory::getApplication()->enqueueMessage($error, 'error');
+                        }
+                        return;
+                }
+
+                $doc = JFactory::getDocument();
+                $doc->addStyleSheet(JURI::root() . 'administrator/components/com_administrations/assets/css/backend.css');
+
+                $this->addToolbar();
+
+                // Include the component HTML helpers.
+                JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+                parent::display($tpl);
+        }
+
+        protected function addToolbar()
+        {
                 $user = JFactory::getUser();
-		require_once JPATH_COMPONENT . '/helpers/administrations.php';
+                require_once JPATH_COMPONENT . '/helpers/administrations.php';
 
-		JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_ORCSERVS'), 'orcserv.png');
-                
-               if (in_array(10, $user->groups)){
-                JToolBarHelper::addNew('orcserv.add');
-		
-		JToolBarHelper::editList('orcserv.edit');
-                
-                if ($this->state->get('filter.state') != 2)
-                {
-                        JToolBarHelper::divider();
-                        JToolBarHelper::publish('orcservs.publish', 'JTOOLBAR_PUBLISH', true);
-                        JToolBarHelper::unpublish('orcservs.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-                }
+                JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_ORCSERVS'), 'orcserv.png');
 
-                if ($this->state->get('filter.state') != -1)
-                {
-                        JToolBarHelper::divider();
-                        if ($this->state->get('filter.state') != 2)
-                        {
-                                JToolBarHelper::archiveList('orcservs.archive');
+                if (in_array(10, $user->groups)) {
+                        JToolBarHelper::addNew('orcserv.add');
+
+                        JToolBarHelper::editList('orcserv.edit');
+
+                        if ($this->state->get('filter.state') != 2) {
+                                JToolBarHelper::divider();
+                                JToolBarHelper::publish('orcservs.publish', 'JTOOLBAR_PUBLISH', true);
+                                JToolBarHelper::unpublish('orcservs.unpublish', 'JTOOLBAR_UNPUBLISH', true);
                         }
-                        elseif ($this->state->get('filter.state') == 2)
-                        {
-                                JToolBarHelper::unarchiveList('orcservs.publish');
+
+                        if ($this->state->get('filter.state') != -1) {
+                                JToolBarHelper::divider();
+                                if ($this->state->get('filter.state') != 2) {
+                                        JToolBarHelper::archiveList('orcservs.archive');
+                                } elseif ($this->state->get('filter.state') == 2) {
+                                        JToolBarHelper::unarchiveList('orcservs.publish');
+                                }
                         }
-                }
-                
-                JToolBarHelper::checkin('orcservs.checkin');
 
-                if ($this->state->get('filter.state') == -2 )
-		{
-			JToolBarHelper::deleteList('', 'orcservs.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		
-                JToolBarHelper::trash('orcservs.trash');
-                JToolBarHelper::divider();
+                        JToolBarHelper::checkin('orcservs.checkin');
 
-                JToolBarHelper::preferences('com_administrations');
-                JToolBarHelper::divider();
-		
-		JToolBarHelper::help('orcservs', $com = true);
+                        if ($this->state->get('filter.state') == -2) {
+                                JToolBarHelper::deleteList('', 'orcservs.delete', 'JTOOLBAR_EMPTY_TRASH');
+                                JToolBarHelper::divider();
+                        }
+
+                        JToolBarHelper::trash('orcservs.trash');
+                        JToolBarHelper::divider();
+
+                        JToolBarHelper::preferences('com_administrations');
+                        JToolBarHelper::divider();
+
+                        JToolBarHelper::help('orcservs', $com = true);
                 }
         }
 }

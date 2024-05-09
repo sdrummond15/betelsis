@@ -22,11 +22,11 @@ jimport('joomla.application.component.view');
 
 class AdministrationsViewVehicles extends JView
 {
-    protected $items;
-    protected $paginaton;
-    protected $state;
-    
-    /*
+        protected $items;
+        protected $paginaton;
+        protected $state;
+
+        /*
      * Method to display the view.
      * 
      * @param string $tpl  A template file to load. [optional]
@@ -35,72 +35,69 @@ class AdministrationsViewVehicles extends JView
      * 
      * @since 1.6
      */
-   public function display($tpl = null) 
-   {
-       // Initialise variables
-       $this->items       = $this->get('Items');
-       $this->pagination  = $this->get('Pagination');
-       $this->state       = $this->get('State');
-       
-       if(count($errors = $this->get('Erros')))
-       {
-           JError::raiseError(500, implode("\n", $errors));
-       }
-       
-       $doc = JFactory::getDocument();
-       $doc ->addStyleSheet(JURI::root().'administrator/components/com_administrations/assets/css/backend.css');
-        
-       $this->addToolbar();
-		
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+        public function display($tpl = null)
+        {
+                // Initialise variables
+                $this->items       = $this->get('Items');
+                $this->pagination  = $this->get('Pagination');
+                $this->state       = $this->get('State');
 
-		parent::display($tpl);
-   }
-   protected function addToolbar()
-	{
-		require_once JPATH_COMPONENT . '/helpers/administrations.php';
+                $errors = $this->get('Errors');
+                if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                                JFactory::getApplication()->enqueueMessage($error, 'error');
+                        }
+                        return;
+                }
 
-		JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_VEHICLES'), 'vehicles.png');
-		
+                $doc = JFactory::getDocument();
+                $doc->addStyleSheet(JURI::root() . 'administrator/components/com_administrations/assets/css/backend.css');
+
+                $this->addToolbar();
+
+                // Include the component HTML helpers.
+                JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+                parent::display($tpl);
+        }
+        protected function addToolbar()
+        {
+                require_once JPATH_COMPONENT . '/helpers/administrations.php';
+
+                JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_VEHICLES'), 'vehicles.png');
+
                 JToolBarHelper::addNew('vehicle.add');
-		
-		JToolBarHelper::editList('vehicle.edit');
-		
-                if ($this->state->get('filter.state') != 2)
-                {
+
+                JToolBarHelper::editList('vehicle.edit');
+
+                if ($this->state->get('filter.state') != 2) {
                         JToolBarHelper::divider();
                         JToolBarHelper::publish('vehicles.publish', 'JTOOLBAR_PUBLISH', true);
                         JToolBarHelper::unpublish('vehicles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
                 }
 
-                if ($this->state->get('filter.state') != -1)
-                {
+                if ($this->state->get('filter.state') != -1) {
                         JToolBarHelper::divider();
-                        if ($this->state->get('filter.state') != 2)
-                        {
+                        if ($this->state->get('filter.state') != 2) {
                                 JToolBarHelper::archiveList('vehicles.archive');
-                        }
-                        elseif ($this->state->get('filter.state') == 2)
-                        {
+                        } elseif ($this->state->get('filter.state') == 2) {
                                 JToolBarHelper::unarchiveList('vehicles.publish');
                         }
                 }
-                
+
                 JToolBarHelper::checkin('vehicles.checkin');
 
-                if ($this->state->get('filter.state') == -2 )
-		{
-			JToolBarHelper::deleteList('', 'vehicles.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		
+                if ($this->state->get('filter.state') == -2) {
+                        JToolBarHelper::deleteList('', 'vehicles.delete', 'JTOOLBAR_EMPTY_TRASH');
+                        JToolBarHelper::divider();
+                }
+
                 JToolBarHelper::trash('vehicles.trash');
                 JToolBarHelper::divider();
 
                 JToolBarHelper::preferences('com_administrations');
                 JToolBarHelper::divider();
-		
-		JToolBarHelper::help('vehicles', $com = true);
+
+                JToolBarHelper::help('vehicles', $com = true);
         }
 }

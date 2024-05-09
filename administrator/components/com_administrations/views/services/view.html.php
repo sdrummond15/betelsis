@@ -22,11 +22,11 @@ jimport('joomla.application.component.view');
 
 class AdministrationsViewServices extends JView
 {
-    protected $items;
-    protected $paginaton;
-    protected $state;
-    
-    /*
+        protected $items;
+        protected $paginaton;
+        protected $state;
+
+        /*
      * Method to display the view.
      * 
      * @param string $tpl  A template file to load. [optional]
@@ -35,73 +35,70 @@ class AdministrationsViewServices extends JView
      * 
      * @since 1.6
      */
-   public function display($tpl = null) 
-   {
-       // Initialise variables
-       $this->items       = $this->get('Items');
-       $this->pagination  = $this->get('Pagination');
-       $this->state       = $this->get('State');
-       
-       if(count($errors = $this->get('Erros')))
-       {
-           JError::raiseError(500, implode("\n", $errors));
-       }
-       
-       //get document
-        $doc = JFactory::getDocument();
-        $doc ->addStyleSheet(JURI::root().'administrator/components/com_administrations/assets/css/backend.css');
-       
-       $this->addToolbar();
-		
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+        public function display($tpl = null)
+        {
+                // Initialise variables
+                $this->items       = $this->get('Items');
+                $this->pagination  = $this->get('Pagination');
+                $this->state       = $this->get('State');
 
-		parent::display($tpl);
-   }
-   protected function addToolbar()
-	{
-		require_once JPATH_COMPONENT . '/helpers/administrations.php';
+                $errors = $this->get('Errors');
+                if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                                JFactory::getApplication()->enqueueMessage($error, 'error');
+                        }
+                        return;
+                }
 
-		JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_SERVICES'), 'services.png');
-		
+                //get document
+                $doc = JFactory::getDocument();
+                $doc->addStyleSheet(JURI::root() . 'administrator/components/com_administrations/assets/css/backend.css');
+
+                $this->addToolbar();
+
+                // Include the component HTML helpers.
+                JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+                parent::display($tpl);
+        }
+        protected function addToolbar()
+        {
+                require_once JPATH_COMPONENT . '/helpers/administrations.php';
+
+                JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_SERVICES'), 'services.png');
+
                 JToolBarHelper::addNew('service.add');
-		
-		JToolBarHelper::editList('service.edit');
-		
-                if ($this->state->get('filter.state') != 2)
-                {
+
+                JToolBarHelper::editList('service.edit');
+
+                if ($this->state->get('filter.state') != 2) {
                         JToolBarHelper::divider();
                         JToolBarHelper::publish('services.publish', 'JTOOLBAR_PUBLISH', true);
                         JToolBarHelper::unpublish('services.unpublish', 'JTOOLBAR_UNPUBLISH', true);
                 }
 
-                if ($this->state->get('filter.state') != -1)
-                {
+                if ($this->state->get('filter.state') != -1) {
                         JToolBarHelper::divider();
-                        if ($this->state->get('filter.state') != 2)
-                        {
+                        if ($this->state->get('filter.state') != 2) {
                                 JToolBarHelper::archiveList('services.archive');
-                        }
-                        elseif ($this->state->get('filter.state') == 2)
-                        {
+                        } elseif ($this->state->get('filter.state') == 2) {
                                 JToolBarHelper::unarchiveList('services.publish');
                         }
                 }
-                
+
                 JToolBarHelper::checkin('services.checkin');
 
-                if ($this->state->get('filter.state') == -2 )
-		{
-			JToolBarHelper::deleteList('', 'services.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		
+                if ($this->state->get('filter.state') == -2) {
+                        JToolBarHelper::deleteList('', 'services.delete', 'JTOOLBAR_EMPTY_TRASH');
+                        JToolBarHelper::divider();
+                }
+
                 JToolBarHelper::trash('services.trash');
                 JToolBarHelper::divider();
 
                 JToolBarHelper::preferences('com_administrations');
                 JToolBarHelper::divider();
-		
-		JToolBarHelper::help('services', $com = true);
+
+                JToolBarHelper::help('services', $com = true);
         }
 }

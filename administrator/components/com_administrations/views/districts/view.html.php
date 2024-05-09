@@ -22,11 +22,11 @@ jimport('joomla.application.component.view');
 
 class AdministrationsViewDistricts extends JView
 {
-    protected $items;
-    protected $paginaton;
-    protected $state;
-    
-    /*
+        protected $items;
+        protected $paginaton;
+        protected $state;
+
+        /*
      * Method to display the view.
      * 
      * @param string $tpl  A template file to load. [optional]
@@ -35,73 +35,70 @@ class AdministrationsViewDistricts extends JView
      * 
      * @since 1.6
      */
-   public function display($tpl = null) 
-   {
-       // Initialise variables
-       $this->items       = $this->get('Items');
-       $this->pagination  = $this->get('Pagination');
-       $this->state       = $this->get('State');
-       
-       if(count($errors = $this->get('Erros')))
-       {
-           JError::raiseError(500, implode("\n", $errors));
-       }
-       
-       //get document
-       $doc = JFactory::getDocument();
-       $doc ->addStyleSheet(JURI::root().'administrator/components/com_administrations/assets/css/backend.css');
-       
-       $this->addToolbar();
-		
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+        public function display($tpl = null)
+        {
+                // Initialise variables
+                $this->items       = $this->get('Items');
+                $this->pagination  = $this->get('Pagination');
+                $this->state       = $this->get('State');
 
-		parent::display($tpl);
-   }
-   protected function addToolbar()
-	{
-		require_once JPATH_COMPONENT . '/helpers/administrations.php';
+                $errors = $this->get('Errors');
+                if (!empty($errors)) {
+                        foreach ($errors as $error) {
+                                JFactory::getApplication()->enqueueMessage($error, 'error');
+                        }
+                        return;
+                }
 
-		JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_DISTRICTS'), 'district.png');
-		
+                //get document
+                $doc = JFactory::getDocument();
+                $doc->addStyleSheet(JURI::root() . 'administrator/components/com_administrations/assets/css/backend.css');
+
+                $this->addToolbar();
+
+                // Include the component HTML helpers.
+                JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
+                parent::display($tpl);
+        }
+        protected function addToolbar()
+        {
+                require_once JPATH_COMPONENT . '/helpers/administrations.php';
+
+                JToolBarHelper::title(JText::_('COM_ADMINISTRATIONS_MANAGER_DISTRICTS'), 'district.png');
+
                 JToolBarHelper::addNew('district.add');
-		
-		JToolBarHelper::editList('district.edit');
-		
-                if ($this->state->get('filter.state') != 2)
-                {
+
+                JToolBarHelper::editList('district.edit');
+
+                if ($this->state->get('filter.state') != 2) {
                         JToolBarHelper::divider();
                         JToolBarHelper::publish('districts.publish', 'JTOOLBAR_PUBLISH', true);
                         JToolBarHelper::unpublish('districts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
                 }
 
-                if ($this->state->get('filter.state') != -1)
-                {
+                if ($this->state->get('filter.state') != -1) {
                         JToolBarHelper::divider();
-                        if ($this->state->get('filter.state') != 2)
-                        {
+                        if ($this->state->get('filter.state') != 2) {
                                 JToolBarHelper::archiveList('districts.archive');
-                        }
-                        elseif ($this->state->get('filter.state') == 2)
-                        {
+                        } elseif ($this->state->get('filter.state') == 2) {
                                 JToolBarHelper::unarchiveList('districts.publish');
                         }
                 }
-                
+
                 JToolBarHelper::checkin('districts.checkin');
 
-                if ($this->state->get('filter.state') == -2 )
-		{
-			JToolBarHelper::deleteList('', 'districts.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		}
-		
+                if ($this->state->get('filter.state') == -2) {
+                        JToolBarHelper::deleteList('', 'districts.delete', 'JTOOLBAR_EMPTY_TRASH');
+                        JToolBarHelper::divider();
+                }
+
                 JToolBarHelper::trash('districts.trash');
                 JToolBarHelper::divider();
 
                 JToolBarHelper::preferences('com_administrations');
                 JToolBarHelper::divider();
-		
-		JToolBarHelper::help('districts', $com = true);
+
+                JToolBarHelper::help('districts', $com = true);
         }
 }

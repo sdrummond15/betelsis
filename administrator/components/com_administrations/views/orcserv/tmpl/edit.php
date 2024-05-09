@@ -387,8 +387,8 @@ $doc->addStyleSheet('../administrator/components/com_administrations/assets/css/
                             <?php echo $this->form->getInput('desconto'); ?>
                         </li>
                         <?php if(in_array(10, $user->groups)){ ?>
-                         <div class="button" id="toolbar-apply">
-                        <a href="#" onclick="Joomla.submitbutton('orcserv.apply')" class="toolbar">
+                         <div id="toolbar-apply">
+                        <a href="#" onclick="Joomla.submitbutton('orcserv.apply')" class="btn-salvar">
                         Salvar
                         </a>
                         </div>

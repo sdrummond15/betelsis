@@ -35,28 +35,35 @@ class AdministrationsViewClients extends JView
      * 
      * @since 1.6
      */
-   public function display($tpl = null) 
-   {
-       // Initialise variables
-       $this->items       = $this->get('Items');
-       $this->pagination  = $this->get('Pagination');
-       $this->state       = $this->get('State');
-       
-       if(count($errors = $this->get('Erros')))
-       {
-           JError::raiseError(500, implode("\n", $errors));
-       }
-       
-       $doc = JFactory::getDocument();
-       $doc ->addStyleSheet(JURI::root().'administrator/components/com_administrations/assets/css/backend.css');
-       
-       $this->addToolbar();
-		
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
-		parent::display($tpl);
-   }
+    public function display($tpl = null) 
+    {
+        // Inicializa as variáveis
+        $this->items = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->state = $this->get('State');
+        
+        // Verifica se há erros e os exibe
+        $errors = $this->get('Errors');
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                JFactory::getApplication()->enqueueMessage($error, 'error');
+            }
+            return;
+        }
+        
+        // Adiciona o arquivo CSS do componente
+        $doc = JFactory::getDocument();
+        $doc->addStyleSheet(JURI::root(true) . '/administrator/components/com_administrations/assets/css/backend.css');
+        
+        // Adiciona a barra de ferramentas
+        $this->addToolbar();
+        
+        // Inclui os helpers HTML do componente
+        JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+    
+        parent::display($tpl);
+    }
+    
    protected function addToolbar()
 	{
                 $user = JFactory::getUser();

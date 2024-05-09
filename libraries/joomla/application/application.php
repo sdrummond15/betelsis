@@ -470,16 +470,14 @@ class JApplication extends JObject
 	 *
 	 * @since   11.1
 	 */
-	public function getMessageQueue()
-	{
-		// For empty queue, if messages exists in the session, enqueue them.
-		if (!count($this->_messageQueue))
-		{
+	public function getMessageQueue() {
+		// Se a fila estiver vazia, tenta recuperar mensagens da sessão
+		if (empty($this->_messageQueue)) {
 			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 
-			if (count($sessionQueue))
-			{
+			// Se houver mensagens na sessão, as adiciona à fila e limpa a sessão
+			if (!empty($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
 				$session->set('application.queue', null);
 			}
